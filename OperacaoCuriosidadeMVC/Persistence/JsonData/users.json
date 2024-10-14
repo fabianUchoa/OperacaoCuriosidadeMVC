@@ -1,0 +1,41 @@
+{
+  "userId": 1,
+  "senha": "123456",
+  "tipo": true,
+  "status": true,
+  "fatos": {
+    "nome": "Fabian Uchoa",
+    "idade": 20,
+    "userName": "uchoaa",
+    "email": "fabian@forlogic.net",
+    "nasc": "23/04/2004",
+    "estadoCivil": "Solteiro",
+    "endereco": "Av XV de Novembro, 1116",
+    "profissao": "Estudante",
+    "tel": "43996324646",
+    "userId": 1
+  },
+  "operacao": {
+    "valores": [
+      {
+        "valoresId": 1,
+        "conteudo": "Melhoria"
+      }
+    ],
+    "interesses": [
+      {
+        "interessesId": 1,
+        "conteudo": "Novidades"
+      }
+    ],
+    "sentimentos": [
+      {
+        "sentimentosId": 1,
+        "conteudo": "Felicidade"
+      }
+    ],
+    "userId": 1,
+    "operacaoId": 1
+  }
+
+}
