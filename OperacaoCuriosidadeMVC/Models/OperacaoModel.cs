@@ -10,7 +10,7 @@
 
         public int UserId { get; set; }
         public int OperacaoId { get; set; }
-        public int? idCadastrador { get; set; }
+        public int idCadastrador { get; set; }
 
     }
 }

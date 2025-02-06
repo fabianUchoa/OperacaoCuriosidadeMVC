@@ -6,14 +6,16 @@ using System.Buffers.Text;
 using System.Net.NetworkInformation;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using OperacaoCuriosidadeMVC.Models.RealizadasPorUser;
 
 namespace OperacaoCuriosidadeMVC.Models
 {
     public class UserModel
     {
         public DateOnly CreateTime { get; set; }
-        public List<int>? RegisterByMe { get; set; }
-        public int[]? SharedWithMe { get; set; }
+        public RegistradasPorMim? RegistradasPorMim { get; set; }
+        public CompartilhadasComigo? CompartilhadasComigo { get; set; }
+        public CompartilhadasPorMim? CompartilhadasPorMim { get; set; }
         public string? ProfileImgPath { get; set; }
         public required int UserId { get; set; }
         public string? UserCode { get; set; }

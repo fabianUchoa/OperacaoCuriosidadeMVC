@@ -46,7 +46,7 @@ namespace OperacaoCuriosidadeMVC.Controllers
         {
             var user = _context.UserModels.Where(u => u.Operacao != null).ToList();
             if (user == null)
-                return NotFound("Não existe usuários com operação cadastrados");
+                return NotFound("Não existe usuários com operação cadastrados.");
             return Ok(user);
         }
 
@@ -54,10 +54,15 @@ namespace OperacaoCuriosidadeMVC.Controllers
 
         public IActionResult GetRegisterByMe(int id) 
         {
-            var users = _context.UserModels.Where(u => u.Operacao!=null && u.Operacao.idCadastrador == id);
-            if (users == null)
-                return NotFound("Esse usuário não possui operações cadastradas");
-            return Ok(users);
+            var user = _context.UserModels.FirstOrDefault(u=> u.UserId==id);
+            if (user == null)
+                return NotFound("Não há usuário cadastrado com esse ID.");
+
+            if (user.RegistradasPorMim == null || user.RegistradasPorMim.Usuarios==null)
+                return NotFound("Esse usuário não possui usuários cadastrados.");
+
+            var RegisteredUsers = user.RegistradasPorMim.Usuarios;
+            return Ok(RegisteredUsers);
         }
 
         [HttpGet("{id}")]
@@ -87,9 +92,13 @@ namespace OperacaoCuriosidadeMVC.Controllers
 
         [HttpGet("filtros")]
         
-        public IActionResult UserFilter(string? userCode, bool? status, bool? tipo, DateOnly? dataIn, DateOnly? dataOut)
+        public IActionResult UserFilter(int id, string? userCode, bool? status, bool? tipo, DateOnly? dataIn, DateOnly? dataOut)
         {
-            var query = _context.UserModels.AsQueryable();
+            var user = _context.UserModels.FirstOrDefault(u=> u.UserId == id);
+            
+            if (user.RegistradasPorMim == null||user.RegistradasPorMim.Usuarios==null )
+                return NotFound("Esse usuário não possui registros de usuários.");
+            var query = user.RegistradasPorMim.Usuarios.AsQueryable();
 
             
             if (!string.IsNullOrEmpty(userCode))
@@ -132,7 +141,7 @@ namespace OperacaoCuriosidadeMVC.Controllers
         public IActionResult Post(UserModel user)
         {
             user = _IdGenerator.UserIdGenerator(user);
-
+            
 
              var validation = _validationLoginData.DataValidation(user);
 

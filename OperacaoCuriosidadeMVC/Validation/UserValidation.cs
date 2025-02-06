@@ -20,7 +20,7 @@ namespace OperacaoCuriosidadeMVC.Validation
             RuleFor(user => user.Fatos.Email)
                 .EmailAddress().WithMessage("O email inserido não é válido");
             RuleFor(user => user.Fatos.Idade)
-                .InclusiveBetween(18, 100).WithMessage("A idade deve estar entre 18 e 65 anos.");
+                .InclusiveBetween(18, 100).WithMessage("A idade deve estar entre 18 e 100 anos.");
 
         }
 

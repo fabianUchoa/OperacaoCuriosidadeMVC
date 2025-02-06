@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OperacaoCuriosidadeMVC.Models;
+using OperacaoCuriosidadeMVC.Models.RealizadasPorUser;
 using OperacaoCuriosidadeMVC.Persistence;
 using OperacaoCuriosidadeMVC.Persistence.JsonData;
 
@@ -29,12 +30,18 @@ namespace OperacaoCuriosidadeMVC.Controllers
 
         public IActionResult PostOperacao(int id,OperacaoModel Operacao)
         {
+            var OperationUser = _contextUser.UserModels.FirstOrDefault(u => u.UserId == id);
             var userCadastrador = _contextUser.UserModels.FirstOrDefault(u => u.UserId == Operacao.idCadastrador);
             if (userCadastrador == null)
                 return NotFound("Usuário não está logado!");
-            if (userCadastrador.RegisterByMe == null)
-                userCadastrador.RegisterByMe = new List<int>();
-            userCadastrador.RegisterByMe.Add(id);
+            if (userCadastrador.RegistradasPorMim == null)
+            {
+                userCadastrador.RegistradasPorMim = new RegistradasPorMim();
+                userCadastrador.RegistradasPorMim.UserId = Operacao.idCadastrador;
+                if (userCadastrador.RegistradasPorMim.Usuarios == null)
+                    userCadastrador.RegistradasPorMim.Usuarios = new List<UserModel>();
+                userCadastrador.RegistradasPorMim.Usuarios.Add(OperationUser);
+            }
 
             _contextUser.UpdateOrDeleteUser();
 
