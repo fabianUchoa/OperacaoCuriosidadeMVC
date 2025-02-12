@@ -92,13 +92,24 @@ namespace OperacaoCuriosidadeMVC.Controllers
 
         [HttpGet("filtros")]
         
-        public IActionResult UserFilter(int id, string? userCode, bool? status, bool? tipo, DateOnly? dataIn, DateOnly? dataOut)
+        public IActionResult RegistersFilter(int ?id, string? userCode, bool? status, bool? tipo, DateOnly? dataIn, DateOnly? dataOut)
         {
-            var user = _context.UserModels.FirstOrDefault(u=> u.UserId == id);
-            
-            if (user.RegistradasPorMim == null||user.RegistradasPorMim.Usuarios==null )
-                return NotFound("Esse usuário não possui registros de usuários.");
-            var query = user.RegistradasPorMim.Usuarios.AsQueryable();
+            IQueryable<UserModel> query;
+
+            if (id != null)
+            {
+
+                var user = _context.UserModels.FirstOrDefault(u => u.UserId == id);
+
+                if (user.RegistradasPorMim == null || user.RegistradasPorMim.Usuarios == null)
+                    return NotFound("Esse usuário não possui registros de usuários.");
+                query = user.RegistradasPorMim.Usuarios.AsQueryable();
+            }
+            else
+            {
+                query = _context.UserModels.AsQueryable();
+            }
+
 
             
             if (!string.IsNullOrEmpty(userCode))
@@ -134,6 +145,7 @@ namespace OperacaoCuriosidadeMVC.Controllers
          
             return Ok(users);
         }
+
        
 
         [HttpPost]
